@@ -1,35 +1,60 @@
-<html>
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-    <title>Best store!</title>
-    <script type="text/javascript" src="/static/update.js"></script>
-    <link href="static/store.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заметки</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin: 0;
+            color: white;
+        }
+        .note {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+        }
+        .important {
+            font-weight: bold;
+        }
+        .input-container {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
-
 <body>
-    <h1>Furniture store:</h1>
-    <h3>Add new product:</h3>
-    <form>
-        <div>
-            <input type="text" name="prod_name" id="prod_name">
-            <label for="prod_name">Product name</label>
-        </div>
-        <div>
-            <input type="number" name="price" id="price">
-            <label for="price">Price (rub.)</label>
-        </div>
-        <button onClick="addProduct()">Add</button>
-    </form>
-    <ul>
-        {% for product in products_list %}
-        <li>
-            <div>
-                <div>{{ product['prod_name'] }}</div>
-                <div>{{ product['price'] }} rub.</div>
-                <input value="{{product['id']}}" onChange="updateProd(this)" name="in_stock" type="checkbox" {% if product.in_stock %} checked {% endif %}>
-                <label for="in_stock">In stock</label>
+    <header>
+        <h1>Заметки</h1>
+    </header>
+    <div class="input-container">
+        <form action="/add" method="post">
+            <input type="text" name="text" placeholder="Введите заметку" required>
+            <label>
+                <input type="checkbox" name="important"> Важная
+            </label>
+            <button type="submit">Добавить</button>
+        </form>
+    </div>
+    <div>
+        {% for note in notes %}
+            <div class="note {% if note.important %}important{% endif %}">
+                {{ note.text }}
             </div>
-        </li>
         {% endfor %}
-    </ul>
+    </div>
 </body>
 </html>
